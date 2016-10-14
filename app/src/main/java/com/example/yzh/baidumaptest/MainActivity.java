@@ -15,10 +15,14 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 
 public class MainActivity extends Activity {
@@ -33,6 +37,10 @@ public class MainActivity extends Activity {
     private BDLocationListener listener = new MyLocationListener();
     //是否第一次定位
     private boolean isFirstLoc = true;
+    //覆盖物坐标点
+    private LatLng point;
+    //覆盖物图片
+    private BitmapDescriptor bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +49,8 @@ public class MainActivity extends Activity {
         //使用百度地图sdk任何组件之前都要调用这个方法
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+
+        bitmap = BitmapDescriptorFactory.fromResource(R.drawable.logo);
 
         //地图布局的基本显示
         mapView = (MapView) findViewById(R.id.mapView);
@@ -132,6 +142,7 @@ public class MainActivity extends Activity {
             //更新地图中心到定位的位置
             baiduMap.setMyLocationData(locData);    //设置定位数据
 
+            addLogo(location);
 
             //第一次定位,暂时不知道有什么用
             if (isFirstLoc) {
@@ -143,5 +154,11 @@ public class MainActivity extends Activity {
                 baiduMap.animateMapStatus(u);
             }
         }
+    }
+
+    private void addLogo(BDLocation location){
+        point = new LatLng(location.getLatitude(),location.getLongitude());
+        OverlayOptions options = new MarkerOptions().position(point).icon(bitmap).draggable(true);
+        baiduMap.addOverlay(options);
     }
 }
