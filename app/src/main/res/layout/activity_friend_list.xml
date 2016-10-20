@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+    android:id="@+id/activity_friend_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -11,17 +11,24 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btnLocate"
+            android:id="@+id/btnAddFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="定位"/>
+            android:text="添加朋友"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="朋友"/>
+
         <Button
-            android:id="@+id/btnSendMessage"
+            android:id="@+id/btnEditFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="发送短信"/>
+            android:text="编辑"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -29,13 +36,12 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.baidu.mapapi.map.MapView
+        <ListView
+            android:id="@+id/lvFriend"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/mapView"
-            android:clickable="true">
-        </com.baidu.mapapi.map.MapView>
+            android:layout_height="match_parent">
 
+        </ListView>
     </RelativeLayout>
 
     <RelativeLayout
@@ -43,19 +49,18 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/btnFriend"
+            android:id="@+id/btnFriendToHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="朋友"/>
+            android:text="返回主页"/>
 
         <Button
-            android:id="@+id/btnEnermy"
+            android:id="@+id/btnFriendToEnermy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="敌人"/>
 
     </RelativeLayout>
-
 </LinearLayout>
