@@ -1,27 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="60dp"
+    android:background="@drawable/enemies_list_item_background"
+    android:paddingTop="10dp"
+    android:paddingRight="10dp"
+    android:paddingLeft="40dp"
     android:descendantFocusability="blocksDescendants">
 
-    <TextView
-        android:id="@+id/tvEnermyName"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:paddingLeft="40dp"
-        android:text="敌人"/>
-    <TextView
-        android:id="@+id/tvEnermyNumber_item"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:text="敌人号码"/>
-    <Button
-        android:id="@+id/btnDeleteEnermy"
+    <TextView android:id="@+id/tvEnermyName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="删除敌人"/>
+        android:layout_alignParentLeft="true"
+        android:textColor="#ec3239"
+        android:paddingTop="3dp"
+        android:paddingLeft="10dp"
+        android:textSize="18dp"
+        android:layout_gravity="center_vertical"/>
 
-</LinearLayout>
+    <TextView android:id="@+id/tvEnermyNumber_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="#ec3239"
+        android:paddingTop="3dp"
+        android:paddingLeft="10dp"
+        android:textSize="18dp"
+        android:layout_gravity="center_vertical"/>
+
+    <ImageButton android:id="@+id/btnDeleteEnermy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_list_delete_def"
+        android:layout_alignParentRight="true" />
+
+</RelativeLayout>

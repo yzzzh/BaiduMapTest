@@ -1,218 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:background="#000">
 
     <RelativeLayout
+        android:id="@+id/vgp_enemy_detail_header"
+        android:background="@drawable/enemies_list_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingLeft="10px"
+        android:paddingRight="10px"
+        android:paddingTop="8px">
 
-        <Button
-            android:id="@+id/btnEnermyList"
+        <Button android:id="@+id/btnEnermyList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="敌人列表"/>
-        <TextView
+            android:background="@drawable/button_enemies_list_def"
+            android:layout_alignParentLeft="true" />
+
+        <Button android:id="@+id/btnEditEnermyDetial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="敌人"/>
-        <Button
-            android:id="@+id/btnEditEnermyDetial"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="编辑"/>
+            android:background="@drawable/button_enemies_list_edit_def"
+            android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tvEnermyNameDetail"
+        android:layout_width="fill_parent"
+        android:id="@+id/vgp_enemy_detail"
+        android:layout_height="wrap_content"
+        android:background="@drawable/enemies_list_item_background"
+        android:paddingTop="10px"
+        android:paddingRight="10px"
+        android:paddingLeft="40px"
+        android:layout_below="@id/vgp_enemy_detail_header">
+
+        <TextView android:id="@+id/tvEnermyNameDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:paddingLeft="40dp"
-            android:text="敌人名字"/>
-        <Button
+            android:textColor="#ec3239"
+            android:paddingTop="3dp"
+            android:paddingLeft="30dp"
+            android:textSize="18dp" />
+
+        <ImageButton
             android:id="@+id/btnDeleteEnermyDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="删除敌人"/>
+            android:background="@drawable/button_list_delete_def"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true" />
+
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="电话号码"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="fill_parent"
+        android:layout_height="500dp"
+        android:background="@drawable/enemy_detail_centre_background"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:layout_below="@id/vgp_enemy_detail" >
         <TextView
             android:id="@+id/tvEnermyNumberDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="null"/>
-    </RelativeLayout>
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="40dp"
+            android:textColor="@android:color/white"
+            android:textSize="15dp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="经纬度"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <TextView
             android:id="@+id/tvEnermyLatlng"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="null"/>
-    </RelativeLayout>
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="32dp"
+            android:layout_below="@id/tvEnermyNumberDetail"
+            android:textColor="@android:color/white"
+            android:textSize="15dp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="海拔"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tvEnermyAltitude"
+        <TextView android:id="@+id/tvEnermyAltitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="null"/>
-    </RelativeLayout>
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="32dp"
+            android:layout_below="@id/tvEnermyLatlng"
+            android:textColor="@android:color/white"
+            android:textSize="15dp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="精度"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tvEnermyAccuracy"
+        <TextView android:id="@+id/tvEnermyAccuracy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="null"/>
-    </RelativeLayout>
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="32dp"
+            android:layout_below="@id/tvEnermyAltitude"
+            android:textColor="@android:color/white"
+            android:textSize="15dp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="附近的城市"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tvEnermyNearestAddress"
+        <TextView android:id="@+id/tvEnermyNearestAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="null"/>
-    </RelativeLayout>
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="32dp"
+            android:layout_below="@id/tvEnermyAccuracy"
+            android:textColor="@android:color/white"
+            android:textSize="15dp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="距离上次刷新"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tvEnermyLastUpdate"
+        <TextView android:id="@+id/tvEnermyLastUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="null"/>
-    </RelativeLayout>
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="32dp"
+            android:layout_below="@id/tvEnermyNearestAddress"
+            android:textColor="@android:color/white"
+            android:textSize="15dp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="距离下次刷新"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tvEnermyNextUpdate"
+        <TextView android:id="@+id/tvEnermyNextUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="null"/>
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="32dp"
+            android:layout_below="@id/tvEnermyLastUpdate"
+            android:textColor="@android:color/white"
+            android:textSize="15dp" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:id="@+id/vgp_footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_footer"
+        android:layout_alignParentBottom="true">
 
-        <Button
-            android:id="@+id/btnEnermyDetailToHome"
+        <Button android:id="@+id/btnEnermyDetailToHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="返回主页"/>
+            android:background="@drawable/button_radar_def"
+            android:layout_alignParentLeft="true" />
 
-        <Button
-            android:id="@+id/btnEnermyDetailToFriend"
+        <Button android:id="@+id/btnEnermyDetailToFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="朋友"/>
+            android:background="@drawable/button_friends_def"
+            android:layout_alignParentRight="true" />
 
     </RelativeLayout>
 
-
-</LinearLayout>
+</RelativeLayout>

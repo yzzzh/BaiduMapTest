@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,10 +27,13 @@ public class FriendDetailActivity extends Activity implements View.OnClickListen
     private Button btnEditFriend;
     private Button btnHome;
     private Button btnEnermyList;
-    private Button btnDeleteFriend;
+    private ImageButton btnDeleteFriend;
     private TextView tvFriendNumber;
     private TextView tvFriendName;
     private TextView tvFriendLatlng;
+
+    private String mNumber;
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,9 @@ public class FriendDetailActivity extends Activity implements View.OnClickListen
 
         String number = getIntent().getStringExtra("number");
         person = db.getPerson(number);
+
+        name = person.getName();
+        mNumber = person.getNumber();
 
         tvFriendName.setText(person.getName());
         tvFriendNumber.setText(person.getNumber());
@@ -74,6 +82,14 @@ public class FriendDetailActivity extends Activity implements View.OnClickListen
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(FriendDetailActivity.this,FriendListActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     private void initViews(){
         tvFriendName = (TextView) findViewById(R.id.tvFriendNameDetail);
         tvFriendNumber = (TextView) findViewById(R.id.tvFriendNumberDetail);
@@ -87,34 +103,39 @@ public class FriendDetailActivity extends Activity implements View.OnClickListen
         btnEnermyList.setOnClickListener(this);
         btnFriendList = (Button) findViewById(R.id.btnFriendList);
         btnFriendList.setOnClickListener(this);
-        btnDeleteFriend = (Button) findViewById(R.id.btnDeleteFriendDetail);
+        btnDeleteFriend = (ImageButton) findViewById(R.id.btnDeleteFriendDetail);
         btnDeleteFriend.setOnClickListener(this);
     }
 
     private void DeleteFriend(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final View dialogView = LayoutInflater.from(FriendDetailActivity.this).inflate(R.layout.friend_delete,null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(FriendDetailActivity.this);
 
-        builder.setTitle("警告");
-        builder.setMessage("是否确认删除朋友？");
-        builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+        Button btnDeleteFriendOK = (Button) dialogView.findViewById(R.id.btnDeleteFriendOK);
+        Button btnDeleteFriendCancel = (Button) dialogView.findViewById(R.id.btnDeleteFriendCancel);
+        TextView tvDeleteFriendNumber = (TextView) dialogView.findViewById(R.id.tvDeleteFriendNumber);
+
+        tvDeleteFriendNumber.setText(name+" / "+mNumber);
+
+        builder.setView(dialogView).setCancelable(false);
+
+        final AlertDialog alertDialog = builder.create();
+
+        btnDeleteFriendOK.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(FriendDetailActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
-                db.delPerson(tvFriendNumber.getText().toString());
-                Intent intent = new Intent(FriendDetailActivity.this,FriendListActivity.class);
-                startActivity(intent);
-                finish();
+            public void onClick(View v) {
+                db.delPerson(mNumber);
+                alertDialog.dismiss();
             }
         });
-        builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+
+        btnDeleteFriendCancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+            public void onClick(View v) {
+                alertDialog.dismiss();
             }
         });
 
-        AlertDialog dialog = builder.create();
-
-        dialog.show();
+        alertDialog.show();
     }
 }

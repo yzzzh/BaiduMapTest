@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_delete_enermy"
+    android:paddingLeft="30px"
+    android:paddingTop="100px">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="175px"
+        android:paddingTop="30px">
+
+        <!--The text is hard-coded here but will be set programatically in code in final assembly-->
+        <TextView android:id="@+id/tvDeleteEnermyNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFF"
+            android:text="1234567890"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="150px">
+
+        <Button
+            android:id="@+id/btnDeleteEnermyOK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dialog_ok_def"
+            android:layout_marginRight="10px"/>
+
+        <Button
+            android:id="@+id/btnDeleteEnermyCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dialog_close_def"/>
+
+    </LinearLayout>
+</LinearLayout>

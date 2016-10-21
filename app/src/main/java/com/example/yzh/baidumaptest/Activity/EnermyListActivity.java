@@ -21,6 +21,7 @@ import com.example.yzh.baidumaptest.model.FriendAdapter;
 import com.example.yzh.baidumaptest.model.Person;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class EnermyListActivity extends Activity implements View.OnClickListener{
 
@@ -55,6 +56,7 @@ public class EnermyListActivity extends Activity implements View.OnClickListener
                 addEnermy();
                 break;
             case R.id.btnEditEnermy:
+                loadEnermies();
                 break;
             case R.id.btnEnermyToHome:
                 Intent intent_home = new Intent(EnermyListActivity.this,MainActivity.class);
@@ -67,6 +69,14 @@ public class EnermyListActivity extends Activity implements View.OnClickListener
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(EnermyListActivity.this,MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void initViews(){
@@ -84,35 +94,50 @@ public class EnermyListActivity extends Activity implements View.OnClickListener
 
     private void addEnermy(){
         //生成自定义的布局
-        View myDialog = LayoutInflater.from(this).inflate(R.layout.enermy_add,null);
+        final View myDialog = LayoutInflater.from(this).inflate(R.layout.enermy_add,null);
         //生成builder对象
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         final EditText etAddEnermyName = (EditText) myDialog.findViewById(R.id.etAddEnermyName);
         final EditText etAddEnermyNumber = (EditText) myDialog.findViewById(R.id.etAddEnermyNumber);
+        final Button btnAddEnermyOK = (Button) myDialog.findViewById(R.id.btnAddEnermyOK);
+        final Button btnAddEnermyCancel = (Button) myDialog.findViewById(R.id.btnAddEnermyCancel);
 
-        builder.setView(myDialog)
-                .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        builder.setView(myDialog).setCancelable(false);
+
+        //生成弹出框
+        final AlertDialog alertDialog = builder.create();
+
+        btnAddEnermyOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = etAddEnermyName.getText().toString();
+                String number = etAddEnermyNumber.getText().toString();
+                if (!name.equals("") && !number.equals("")) {
+                    if (!isInteger(number)){
+                        Toast.makeText(EnermyListActivity.this,"电话号码格式有误",Toast.LENGTH_SHORT).show();
+                    } else {
                         Person person = new Person();
                         person.setName(etAddEnermyName.getText().toString());
                         person.setNumber(etAddEnermyNumber.getText().toString());
                         person.setType("enermy");
                         db.addPerson(person);
                         loadEnermies();
+                        alertDialog.dismiss();
                     }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
+                }else{
+                    Toast.makeText(EnermyListActivity.this,"姓名/号码 不能为空",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
-        //生成弹出框
-        AlertDialog alertDialog = builder.create();
+        btnAddEnermyCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
         //展示弹出框
         alertDialog.show();
     }
@@ -125,7 +150,6 @@ public class EnermyListActivity extends Activity implements View.OnClickListener
         lvEnermy.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(EnermyListActivity.this,"hhhhhh",Toast.LENGTH_SHORT).show();
                 Person person = enermyList.get(position);
                 Intent intent = new Intent(EnermyListActivity.this,EnermyDetailActivity.class);
                 intent.putExtra("number",person.getNumber());
@@ -133,5 +157,11 @@ public class EnermyListActivity extends Activity implements View.OnClickListener
                 finish();
             }
         });
+    }
+
+    //判断是否为字符串
+    private boolean isInteger(String str) {
+        Pattern pattern = Pattern.compile("^[+]?[\\d]*$");
+        return pattern.matcher(str).matches();
     }
 }

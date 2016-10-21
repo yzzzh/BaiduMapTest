@@ -1,13 +1,9 @@
 package com.example.yzh.baidumaptest.Activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -19,11 +15,11 @@ import android.widget.Toast;
 
 import com.example.yzh.baidumaptest.R;
 import com.example.yzh.baidumaptest.database.RadarDB;
-import com.example.yzh.baidumaptest.model.CallbackListener;
 import com.example.yzh.baidumaptest.model.FriendAdapter;
 import com.example.yzh.baidumaptest.model.Person;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class FriendListActivity extends Activity implements View.OnClickListener{
 
@@ -92,6 +88,14 @@ public class FriendListActivity extends Activity implements View.OnClickListener
         loadFriends();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(FriendListActivity.this,MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     private void initViews(){
         lvFriend = (ListView) findViewById(R.id.lvFriend);
         btnAddFriend = (Button) findViewById(R.id.btnAddFriend);
@@ -114,38 +118,51 @@ public class FriendListActivity extends Activity implements View.OnClickListener
          */
 
         //生成自定义的布局
-        View myDialog = LayoutInflater.from(this).inflate(R.layout.friend_add,null);
+        final View myDialog = LayoutInflater.from(this).inflate(R.layout.friend_add,null);
         //生成builder对象
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         final EditText etAddFriendName = (EditText) myDialog.findViewById(R.id.etAddFriendName);
         final EditText etAddFriendNumber = (EditText) myDialog.findViewById(R.id.etAddFriendNumber);
+        final Button btnAddFriendOK = (Button) myDialog.findViewById(R.id.btnAddFriendOK);
+        final Button btnAddFriendCancel = (Button) myDialog.findViewById(R.id.btnAddFriendCancel);
 
-        builder.setView(myDialog)
-                .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        Toast.makeText(FriendListActivity.this,etAddFriendName.getText().toString()+"/"+
-//                        etAddFriendNumber.getText().toString(),Toast.LENGTH_SHORT).show();
+        builder.setView(myDialog).setCancelable(false);
+
+        //生成弹出框
+        final AlertDialog alertDialog = builder.create();
+        //展示弹出框
+
+        btnAddFriendOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = etAddFriendName.getText().toString();
+                String number = etAddFriendNumber.getText().toString();
+                if (!name.equals("") && !number.equals("")) {
+                    if (!isInteger(number)){
+                        Toast.makeText(FriendListActivity.this,"电话号码格式有误",Toast.LENGTH_SHORT).show();
+                    }else {
                         Person person = new Person();
                         person.setName(etAddFriendName.getText().toString());
                         person.setNumber(etAddFriendNumber.getText().toString());
                         person.setType("friend");
                         db.addPerson(person);
                         loadFriends();
+                        alertDialog.dismiss();
                     }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
+                }else {
+                    Toast.makeText(FriendListActivity.this,"姓名/号码 不能为空",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
-        //生成弹出框
-        AlertDialog alertDialog = builder.create();
-        //展示弹出框
+        btnAddFriendCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
         alertDialog.show();
     }
 
@@ -158,7 +175,6 @@ public class FriendListActivity extends Activity implements View.OnClickListener
         lvFriend.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(FriendListActivity.this,"hhhhhh",Toast.LENGTH_SHORT).show();
                 Person person = friendList.get(position);
                 Intent intent = new Intent(FriendListActivity.this,FriendDetailActivity.class);
                 intent.putExtra("number",person.getNumber());
@@ -166,5 +182,11 @@ public class FriendListActivity extends Activity implements View.OnClickListener
                 finish();
             }
         });
+    }
+
+    //判断是否为字符串
+    private boolean isInteger(String str) {
+        Pattern pattern = Pattern.compile("^[+]?[\\d]*$");
+        return pattern.matcher(str).matches();
     }
 }

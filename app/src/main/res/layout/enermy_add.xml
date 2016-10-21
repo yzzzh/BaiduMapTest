@@ -1,18 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="fill_parent" android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_add_enemy">
 
-    <EditText
-        android:id="@+id/etAddEnermyName"
-        android:layout_width="match_parent"
+    <LinearLayout android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="姓名："/>
+        android:orientation="horizontal"
+        android:layout_marginTop="110dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp">
 
-    <EditText
-        android:id="@+id/etAddEnermyNumber"
-        android:layout_width="match_parent"
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NAME:"
+            android:layout_weight="1"
+            android:textColor="#FFF"
+            android:paddingRight="10dp"/>
+
+        <EditText android:id="@+id/etAddEnermyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_background" />
+
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="手机号码："/>
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="10dp">
 
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NUMBER:"
+            android:layout_weight="1"
+            android:textColor="#FFF"
+            android:paddingRight="10dp"/>
+
+        <EditText android:id="@+id/etAddEnermyNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_background" />
+
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_margin="5dp">
+
+        <Button android:id="@+id/btnAddEnermyOK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dialog_ok_def"
+            android:layout_marginRight="10px" />
+
+        <Button android:id="@+id/btnAddEnermyCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dialog_close_def" />
+
+    </LinearLayout>
 </LinearLayout>

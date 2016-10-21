@@ -39,13 +39,13 @@ public class RadarDB {
         Cursor cursor = db.query("person",null,"number = ?",new String[]{person.getNumber()},null,null,null);
         if (!cursor.moveToFirst()) {
             if (person != null) {
-                ContentValues values = new ContentValues();
-                values.put("name", person.getName());
-                values.put("number", person.getNumber());
-                values.put("latitude", person.getLatitude());
-                values.put("longitude", person.getLongitude());
-                values.put("type", person.getType());
-                db.insert("person", null, values);
+                    ContentValues values = new ContentValues();
+                    values.put("name", person.getName());
+                    values.put("number", person.getNumber());
+                    values.put("latitude", person.getLatitude());
+                    values.put("longitude", person.getLongitude());
+                    values.put("type", person.getType());
+                    db.insert("person", null, values);
             }
         }else {
             radarDB.updatePerson(person);

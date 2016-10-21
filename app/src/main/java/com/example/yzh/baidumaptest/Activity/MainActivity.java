@@ -4,13 +4,16 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.baidu.location.BDLocation;
@@ -122,7 +125,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnSendMessage:
-                sendMessage();
+                warning();
                 break;
             case R.id.btnLocate:
                 setCenter();
@@ -288,12 +291,43 @@ public class MainActivity extends Activity implements View.OnClickListener{
         unregisterReceiver(smsReceiver);
     }
 
+    private void warning(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+        builder.setCancelable(false);
+        builder.setTitle("Warning");
+        builder.setMessage("是否确认群发短信？");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                sendMessage();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+
+        //设置透明
+        Window window = alertDialog.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.alpha = 0.6f;
+        window.setAttributes(lp);
+
+        alertDialog.show();
+    }
+
     //设置自己的坐标点到屏幕中心
     private void setCenter(){
         mapStatusUpdate= MapStatusUpdateFactory.newLatLngZoom(myPoint, 16);   //设置地图中心点以及缩放级别
         baiduMap.animateMapStatus(mapStatusUpdate);
     }
 
+    //描绘朋友/敌人的坐标
     private void drawPositon(){
         double latitude;
         double logitude;

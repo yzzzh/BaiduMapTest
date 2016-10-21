@@ -1,61 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="35dp"
+        android:background="@drawable/radar_header"
+        android:orientation="horizontal"/>
 
-        <Button
-            android:id="@+id/btnLocate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="定位"/>
-        <Button
-            android:id="@+id/btnSendMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="发送短信"/>
-    </RelativeLayout>
-
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/vgp_center"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header">
 
         <com.baidu.mapapi.map.MapView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:id="@+id/mapView"
-            android:clickable="true">
-        </com.baidu.mapapi.map.MapView>
+            android:layout_marginTop="20dp"
+            android:layout_width="fill_parent"
+            android:layout_height="515dp"
+            android:enabled="true"
+            android:clickable="true" />
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+            <ImageView
+                android:id="@+id/imageview_sweep"
+                android:layout_centerInParent="true"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@drawable/radar_sweep" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:paddingTop="10dp"
+            android:background="@drawable/centre_radar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btnLocate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_locate_def"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true" />
+
+            <Button
+                android:id="@+id/btnSendMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_refresh_def"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true" />
+
+        </RelativeLayout>
+
+
+    </FrameLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:id="@+id/vgp_footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_footer"
+        android:layout_alignParentBottom="true">
 
         <Button
             android:id="@+id/btnFriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_friends_def"
             android:layout_alignParentLeft="true"
-            android:text="朋友"/>
+            android:layout_centerVertical="true" />
 
-        <Button
-            android:id="@+id/btnEnermy"
+        <Button android:id="@+id/btnEnermy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_enemies_def"
             android:layout_alignParentRight="true"
-            android:text="敌人"/>
+            android:layout_centerVertical="true" />
 
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

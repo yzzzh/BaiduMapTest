@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class EnermyAdapter extends ArrayAdapter<Person> {
     private ViewHolder viewHolder;
     private RadarDB db;
     private String number;
+    private String name;
 
     public EnermyAdapter(Context context, int textViewResourceId, List<Person> objects){
         super(context,textViewResourceId,objects);
@@ -44,7 +46,7 @@ public class EnermyAdapter extends ArrayAdapter<Person> {
             viewHolder = new ViewHolder();
             viewHolder.tvEnermyName = (TextView) view.findViewById(R.id.tvEnermyName);
             viewHolder.tvEnermyNumber_item = (TextView) view.findViewById(R.id.tvEnermyNumber_item);
-            viewHolder.btnDeleteEnermy = (Button) view.findViewById(R.id.btnDeleteEnermy);
+            viewHolder.btnDeleteEnermy = (ImageButton) view.findViewById(R.id.btnDeleteEnermy);
             view.setTag(viewHolder);
         }else {
             view = convertView;
@@ -59,6 +61,7 @@ public class EnermyAdapter extends ArrayAdapter<Person> {
         viewHolder.btnDeleteEnermy.setOnClickListener(new lvButtonListener(position));
 
         number = viewHolder.tvEnermyNumber_item.getText().toString();
+        name = viewHolder.tvEnermyName.getText().toString();
 
         return view;
     }
@@ -66,7 +69,7 @@ public class EnermyAdapter extends ArrayAdapter<Person> {
     class ViewHolder{
         TextView tvEnermyName;
         TextView tvEnermyNumber_item;
-        Button btnDeleteEnermy;
+        ImageButton btnDeleteEnermy;
     }
 
     // 自定义listView中监听类
@@ -86,26 +89,35 @@ public class EnermyAdapter extends ArrayAdapter<Person> {
     }
 
     private void DeleteEnermy(){
+
+        final View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.enermy_delete,null);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-        builder.setTitle("警告");
-        builder.setMessage("是否确认删除敌人？");
-        builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+        Button btnDeleteEnermyOK = (Button) dialogView.findViewById(R.id.btnDeleteEnermyOK);
+        Button btnDeleteEnermyCancel = (Button) dialogView.findViewById(R.id.btnDeleteEnermyCancel);
+        TextView tvDeleteEnermyNumber = (TextView) dialogView.findViewById(R.id.tvDeleteEnermyNumber);
+
+        tvDeleteEnermyNumber.setText(name+" / "+number);
+
+        builder.setView(dialogView).setCancelable(false);
+
+        final AlertDialog alertDialog = builder.create();
+
+        btnDeleteEnermyOK.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getContext(),"删除成功",Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
                 db.delPerson(number);
+                alertDialog.dismiss();
             }
         });
-        builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+
+        btnDeleteEnermyCancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
+            public void onClick(View v) {
+                alertDialog.dismiss();
             }
         });
 
-        AlertDialog dialog = builder.create();
-
-        dialog.show();
+        alertDialog.show();
     }
 }
