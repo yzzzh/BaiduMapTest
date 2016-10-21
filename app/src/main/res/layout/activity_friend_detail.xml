@@ -41,7 +41,8 @@
             android:layout_alignParentLeft="true"
             android:textColor="#39b54a"
             android:paddingTop="3dp"
-            android:paddingLeft="30dp" android:textSize="18dp" />
+            android:paddingLeft="30dp"
+            android:textSize="18dp" />
 
         <ImageButton android:id="@+id/btnDeleteFriendDetail"
             android:layout_width="wrap_content"
