@@ -30,9 +30,8 @@ public class FriendAdapter extends ArrayAdapter<Person> {
     private int resourceId;
     private View view;
     private ViewHolder viewHolder;
-    private String number;
-    private String name;
     private RadarDB db;
+    private List<Person> friendList = FriendListActivity.friendList;
 
     public FriendAdapter(Context context, int textViewResourceId, List<Person> objects){
         super(context,textViewResourceId,objects);
@@ -42,8 +41,8 @@ public class FriendAdapter extends ArrayAdapter<Person> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Person person = getItem(position);
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final Person person = getItem(position);
 
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId, null);
@@ -61,10 +60,12 @@ public class FriendAdapter extends ArrayAdapter<Person> {
         viewHolder.tvFriendName.setText(person.getName());
         viewHolder.tvFriendNumber_item.setText(person.getNumber());
 
-        viewHolder.btnDeleteFriend.setOnClickListener(new lvButtonListener(position));
-
-        number = viewHolder.tvFriendNumber_item.getText().toString();
-        name = viewHolder.tvFriendName.getText().toString();
+        viewHolder.btnDeleteFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DeleteFriend(person,position);
+            }
+        });
 
         return view;
     }
@@ -75,23 +76,7 @@ public class FriendAdapter extends ArrayAdapter<Person> {
         ImageButton btnDeleteFriend;
     }
 
-    // 自定义listView中监听类
-    class lvButtonListener implements View.OnClickListener {
-        private int position;
-
-        public lvButtonListener(int pos) {
-            position = pos;
-        }
-
-        @Override
-        public void onClick(View v) {
-            if ((v.getId()) == (viewHolder.btnDeleteFriend.getId())) {
-                DeleteFriend();
-            }
-        }
-    }
-
-    private void DeleteFriend(){
+    private void DeleteFriend(final Person person, final int position){
 
         final View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.friend_delete,null);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -100,7 +85,7 @@ public class FriendAdapter extends ArrayAdapter<Person> {
         Button btnDeleteFriendCancel = (Button) dialogView.findViewById(R.id.btnDeleteFriendCancel);
         TextView tvDeleteFriendNumber = (TextView) dialogView.findViewById(R.id.tvDeleteFriendNumber);
 
-        tvDeleteFriendNumber.setText(name+" / "+number);
+        tvDeleteFriendNumber.setText(person.getName()+" / "+person.getNumber());
 
         builder.setView(dialogView).setCancelable(false);
 
@@ -109,7 +94,8 @@ public class FriendAdapter extends ArrayAdapter<Person> {
         btnDeleteFriendOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.delPerson(number);
+                db.delPerson(person.getNumber());
+                refresh(position);
                 alertDialog.dismiss();
             }
         });
@@ -122,6 +108,11 @@ public class FriendAdapter extends ArrayAdapter<Person> {
         });
 
         alertDialog.show();
+    }
+
+    private void refresh(int position){
+        friendList.remove(position);
+        this.notifyDataSetChanged();
     }
 }
 

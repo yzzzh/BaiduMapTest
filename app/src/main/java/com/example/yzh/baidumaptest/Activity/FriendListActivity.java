@@ -23,7 +23,8 @@ import java.util.regex.Pattern;
 
 public class FriendListActivity extends Activity implements View.OnClickListener{
 
-    private List<Person> friendList;
+    public static List<Person> friendList;
+
     private RadarDB db;
     private FriendAdapter adapter;
 

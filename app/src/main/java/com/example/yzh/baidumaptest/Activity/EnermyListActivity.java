@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
 
 public class EnermyListActivity extends Activity implements View.OnClickListener{
 
-    private List<Person> enermyList;
+    public static List<Person> enermyList;
     private RadarDB db;
     private EnermyAdapter adapter;
 

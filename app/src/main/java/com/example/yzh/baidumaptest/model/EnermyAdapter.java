@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.yzh.baidumaptest.Activity.EnermyListActivity;
 import com.example.yzh.baidumaptest.R;
 import com.example.yzh.baidumaptest.database.RadarDB;
 
@@ -27,8 +28,7 @@ public class EnermyAdapter extends ArrayAdapter<Person> {
     private View view;
     private ViewHolder viewHolder;
     private RadarDB db;
-    private String number;
-    private String name;
+    private List<Person> enermyList = EnermyListActivity.enermyList;
 
     public EnermyAdapter(Context context, int textViewResourceId, List<Person> objects){
         super(context,textViewResourceId,objects);
@@ -38,8 +38,8 @@ public class EnermyAdapter extends ArrayAdapter<Person> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Person person = getItem(position);
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final Person person = getItem(position);
 
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId, null);
@@ -53,15 +53,15 @@ public class EnermyAdapter extends ArrayAdapter<Person> {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-
-
         viewHolder.tvEnermyName.setText(person.getName());
         viewHolder.tvEnermyNumber_item.setText(person.getNumber());
 
-        viewHolder.btnDeleteEnermy.setOnClickListener(new lvButtonListener(position));
-
-        number = viewHolder.tvEnermyNumber_item.getText().toString();
-        name = viewHolder.tvEnermyName.getText().toString();
+        viewHolder.btnDeleteEnermy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DeleteEnermy(person,position);
+            }
+        });
 
         return view;
     }
@@ -72,23 +72,8 @@ public class EnermyAdapter extends ArrayAdapter<Person> {
         ImageButton btnDeleteEnermy;
     }
 
-    // 自定义listView中监听类
-    class lvButtonListener implements View.OnClickListener {
-        private int position;
 
-        public lvButtonListener(int pos) {
-            position = pos;
-        }
-
-        @Override
-        public void onClick(View v) {
-            if ((v.getId()) == (viewHolder.btnDeleteEnermy.getId())) {
-                DeleteEnermy();
-            }
-        }
-    }
-
-    private void DeleteEnermy(){
+    private void DeleteEnermy(final Person person, final int position){
 
         final View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.enermy_delete,null);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -97,7 +82,7 @@ public class EnermyAdapter extends ArrayAdapter<Person> {
         Button btnDeleteEnermyCancel = (Button) dialogView.findViewById(R.id.btnDeleteEnermyCancel);
         TextView tvDeleteEnermyNumber = (TextView) dialogView.findViewById(R.id.tvDeleteEnermyNumber);
 
-        tvDeleteEnermyNumber.setText(name+" / "+number);
+        tvDeleteEnermyNumber.setText(person.getName()+" / "+person.getNumber());
 
         builder.setView(dialogView).setCancelable(false);
 
@@ -106,7 +91,8 @@ public class EnermyAdapter extends ArrayAdapter<Person> {
         btnDeleteEnermyOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.delPerson(number);
+                db.delPerson(person.getNumber());
+                refresh(position);
                 alertDialog.dismiss();
             }
         });
@@ -119,5 +105,10 @@ public class EnermyAdapter extends ArrayAdapter<Person> {
         });
 
         alertDialog.show();
+    }
+
+    private void refresh(int position){
+        enermyList.remove(position);
+        this.notifyDataSetChanged();
     }
 }
