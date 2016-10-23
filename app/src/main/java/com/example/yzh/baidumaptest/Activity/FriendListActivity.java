@@ -71,23 +71,6 @@ public class FriendListActivity extends Activity implements View.OnClickListener
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadFriends();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        loadFriends();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        loadFriends();
-    }
 
     @Override
     public void onBackPressed() {
